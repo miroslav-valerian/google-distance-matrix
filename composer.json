@@ -1,0 +1,28 @@
+{
+	"name": "valerian/google-distance-matrix",
+	"type": "library",
+	"description": "Google distance matrix API - Estimate travel time and distance for multiple destinations.",
+	"keywords": ["google distance matrix", "distance matrix", "google api"],
+	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+	"authors": [
+		{
+			"name": "Miroslav Valerian",
+			"homepage": "http://www.miroslav-valerian.cz",
+			"email": "info@miroslav-valerian.cz"
+		}
+	],
+	"support": {
+		"email": "info@miroslav-valerian.cz",
+		"issues": "https://github.com/miroslav-valerian/google-distance-matrix/issues"
+	},
+	"version": "v0.0.1",
+	"require": {
+		"php": ">=5.5.0",
+		"guzzlehttp/guzzle": "^6.2"
+	},
+	"autoload": {
+		"psr-4": {
+			"Valerian\\GoogleDistanceMatrix\\": "src/"
+		}
+	}
+}
