@@ -6,28 +6,44 @@ use GuzzleHttp\Client;
 
 class GoogleDistanceMatrix
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     private $apiKey;
 
-    /** @var string */
+    /**
+     * @var array
+     */
     private $origin;
 
-    /** @var string */
+    /**
+     * @var array
+     */
     private $destination;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $language;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $units;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $mode;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $avoid;
 
-    /** URL for API */
+    /**
+     * URL for API
+     */
     const URL = 'https://maps.googleapis.com/maps/api/distancematrix/json';
 
     const MODE_DRIVING = 'driving';
@@ -45,6 +61,7 @@ class GoogleDistanceMatrix
 
     /**
      * GoogleDistanceMatrix constructor.
+     *
      * @param $apiKey
      */
     public function __construct($apiKey)
@@ -97,12 +114,22 @@ class GoogleDistanceMatrix
     }
 
     /**
-     * @param string $origin (for more values use | as separator)
+     * @param string $origin (for more values use addOrigin method instead)
      * @return $this
      */
     public function setOrigin($origin)
     {
-        $this->origin = $origin;
+        $this->origin = array($origin);
+        return $this;
+    }
+
+    /**
+     * @param string $origin
+     * @return $this
+     */
+    public function addOrigin($origin)
+    {
+        $this->origin[] = $origin;
         return $this;
     }
 
@@ -115,12 +142,22 @@ class GoogleDistanceMatrix
     }
 
     /**
-     * @param string $destination (for more values use | as separator)
+     * @param string $destination (for more values use addDestination method instead)
      * @return $this
      */
     public function setDestination($destination)
     {
-        $this->destination = $destination;
+        $this->destination = array($destination);
+        return $this;
+    }
+
+    /**
+     * @param string $destination
+     * @return $this
+     */
+    public function addDestination($destination)
+    {
+        $this->destination[] = $destination;
         return $this;
     }
 
@@ -177,8 +214,8 @@ class GoogleDistanceMatrix
         $data = [
             'key' => $this->apiKey,
             'language' => $this->language,
-            'origins' => $this->origin,
-            'destinations' => $this->destination,
+            'origins' => count($this->origin) > 1 ? implode('|', $this->origin) : $this->origin,
+            'destinations' => count($this->destination) > 1 ? implode('|', $this->destination) : $this->destination,
             'mode' => $this->mode,
             'avoid' => $this->avoid,
             'units' => $this->units
@@ -186,11 +223,11 @@ class GoogleDistanceMatrix
         $parameters = http_build_query($data);
         $url = self::URL.'?'.$parameters;
         $response = $this->request('GET', $url);
-        if ($response->getStatusCode() == 200) {
-            return json_decode(($response->getBody()->getContents()));
-        } else {
+        if ($response->getStatusCode() != 200) {
             throw new \Exception('Response with status code '.$response->getStatusCode());
         }
+        
+        return json_decode(($response->getBody()->getContents()));
     }
     
     /**
@@ -208,7 +245,11 @@ class GoogleDistanceMatrix
 
     private function validate()
     {
-        if (!$this->getOrigin()) throw new Exception('Origin must be set.');
-        if (!$this->getDestination()) throw new Exception('Destination must be set.');
+        if (!$this->getOrigin()) {
+            throw new Exception('Origin must be set.');
+        }
+        if (!$this->getDestination()) {
+            throw new Exception('Destination must be set.');
+        }
     }
 }
