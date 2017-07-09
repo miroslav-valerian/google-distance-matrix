@@ -211,11 +211,12 @@ class GoogleDistanceMatrix
      */
     public function sendRequest()
     {
+        $this->validate();
         $data = [
             'key' => $this->apiKey,
             'language' => $this->language,
-            'origins' => count($this->origin) > 1 ? implode('|', $this->origin) : $this->origin,
-            'destinations' => count($this->destination) > 1 ? implode('|', $this->destination) : $this->destination,
+            'origins' => count($this->origin) > 1 ? implode('|', $this->origin) : $this->origin[0],
+            'destinations' => count($this->destination) > 1 ? implode('|', $this->destination) : $this->destination[0],
             'mode' => $this->mode,
             'avoid' => $this->avoid,
             'units' => $this->units
@@ -237,7 +238,6 @@ class GoogleDistanceMatrix
      */
     private function request($type = 'GET', $url)
     {
-        $this->validate();
         $client = new Client();
         $response = $client->request($type, $url);
         return $response;
@@ -245,10 +245,10 @@ class GoogleDistanceMatrix
 
     private function validate()
     {
-        if (!$this->getOrigin()) {
+        if (empty($this->getOrigin())) {
             throw new Exception('Origin must be set.');
         }
-        if (!$this->getDestination()) {
+        if (empty($this->getDestination())) {
             throw new Exception('Destination must be set.');
         }
     }
