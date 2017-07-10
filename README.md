@@ -22,8 +22,10 @@ Getting Started
 
 $distanceMatrix = new GoogleDistanceMatrix('YOUR API KEY');
 $distance = $distanceMatrix->setLanguage('cs')
-    ->setOrigin('49.950096, 14.668544')
-    ->setDestination('50.031817, 14.490880')
+    ->addOrigin('49.950096, 14.668544')
+    ->addOrigin('49.950096, 15.668544')
+    ->addDestination('50.031817, 14.490880')
+    ->addDestination('51.031817, 14.490880')
     ->sendRequest();
 
 ```
