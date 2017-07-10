@@ -4,17 +4,16 @@ namespace Valerian\GoogleDistanceMatrix\Response;
 
 use Valerian\GoogleDistanceMatrix\Exception\Exception;
 
-
 class Element
 {
     const STATUS_OK = 'OK';
-    const STATUS_NOT_FOUND = 'NOT_FOUND' ;
+    const STATUS_NOT_FOUND = 'NOT_FOUND';
     const STATUS_ZERO_RESULTS = 'ZERO_RESULTS';
 
     const STATUS = [
         self::STATUS_OK,
         self::STATUS_NOT_FOUND,
-        self::STATUS_ZERO_RESULTS
+        self::STATUS_ZERO_RESULTS,
     ];
 
     private $status;
@@ -25,16 +24,16 @@ class Element
 
     /**
      * Element constructor.
+     *
      * @param $status
      * @param Duration $duration
      * @param Distance $distance
      */
     public function __construct($status, Duration $duration, Distance $distance)
     {
-        if(!in_array($status,self::STATUS)) {
-            throw new Exception('Unknown status code');
+        if (!in_array($status, self::STATUS)) {
+            throw new Exception(sprintf('Unknown status code: %s', $status));
         }
-
 
         $this->status = $status;
         $this->duration = $duration;

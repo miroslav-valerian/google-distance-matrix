@@ -2,16 +2,15 @@
 
 namespace Valerian\GoogleDistanceMatrix\Response;
 
-
 class Distance
 {
-
     private $text;
 
     private $value;
 
     /**
      * Distance constructor.
+     *
      * @param $text
      * @param $value
      */

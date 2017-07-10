@@ -2,7 +2,6 @@
 
 namespace Valerian\GoogleDistanceMatrix\Response;
 
-
 class Address
 {
     /**
@@ -12,6 +11,7 @@ class Address
 
     /**
      * Address constructor.
+     *
      * @param $address string
      */
     public function __construct($address)

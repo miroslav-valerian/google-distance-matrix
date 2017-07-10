@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: ciro
  * Date: 10/07/17
- * Time: 17:19
+ * Time: 17:19.
  */
 
 namespace Valerian\GoogleDistanceMatrix\Response;
-
 
 class Row
 {
@@ -28,5 +27,4 @@ class Row
     {
         return $this->elements;
     }
-
 }

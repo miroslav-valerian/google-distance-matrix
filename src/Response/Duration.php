@@ -1,16 +1,16 @@
 <?php
-namespace Valerian\GoogleDistanceMatrix\Response;
 
+namespace Valerian\GoogleDistanceMatrix\Response;
 
 class Duration
 {
-
     private $text;
 
     private $value;
 
     /**
      * Distance constructor.
+     *
      * @param $text
      * @param $value
      */

@@ -274,7 +274,7 @@ class GoogleDistanceMatrix
                 throw new Exception\ResponseException("Unknown error.", 5);
                 break;
             default:
-                throw new Exception\ResponseException("Unknown status code.", 6);
+                throw new Exception\ResponseException(sprintf("Unknown status code: %s",$response->getStatus()), 6);
                 break;
         }
     }

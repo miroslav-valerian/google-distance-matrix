@@ -4,7 +4,6 @@ namespace Valerian\GoogleDistanceMatrix\Response;
 
 class GoogleDistanceMatrixResponse
 {
-
     const RESPONSE_STATUS_OK = 'OK';
     const RESPONSE_STATUS_INVALID_REQUEST = 'INVALID_REQUEST';
     const RESPONSE_STATUS_MAX_ELEMENTS_EXCEEDED = 'MAX_ELEMENTS_EXCEEDED';
@@ -18,7 +17,7 @@ class GoogleDistanceMatrixResponse
         self::RESPONSE_STATUS_MAX_ELEMENTS_EXCEEDED,
         self::RESPONSE_STATUS_OVER_QUERY_LIMIT,
         self::RESPONSE_STATUS_REQUEST_DENIED,
-        self::RESPONSE_STATUS_UNKNOWN_ERROR
+        self::RESPONSE_STATUS_UNKNOWN_ERROR,
     ];
 
     private $status;
@@ -31,7 +30,7 @@ class GoogleDistanceMatrixResponse
 
     private $rows;
 
-	public function __construct(\stdClass $responseObject)
+    public function __construct(\stdClass $responseObject)
     {
         $this->responseObject = $responseObject;
         $this->originAddresses = array();
@@ -95,29 +94,26 @@ class GoogleDistanceMatrixResponse
         return $this->rows;
     }
 
-
     private function construct()
     {
         $this->status = $this->responseObject->status;
 
-        foreach ($this->responseObject->origin_addresses as $originAddress){
+        foreach ($this->responseObject->origin_addresses as $originAddress) {
             $this->addOriginAddress(new Address($originAddress));
         }
 
-        foreach ($this->responseObject->destination_addresses as $destinationAddress){
+        foreach ($this->responseObject->destination_addresses as $destinationAddress) {
             $this->addDestinationAddress(new Address($destinationAddress));
         }
 
-        foreach ($this->responseObject->rows as $row){
-
+        foreach ($this->responseObject->rows as $row) {
             $elements = array();
-            foreach($row->elements as $element){
-                $duration = new Duration($element->duration->text,$element->duration->value);
-                $distance = new Distance($element->distance->text,$element->distance->value);
-                $elements[] = new Element($element->status,$duration,$distance);
+            foreach ($row->elements as $element) {
+                $duration = new Duration($element->duration->text, $element->duration->value);
+                $distance = new Distance($element->distance->text, $element->distance->value);
+                $elements[] = new Element($element->status, $duration, $distance);
             }
             $this->addRow(new Row($elements));
         }
-
     }
 }
